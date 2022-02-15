@@ -1,5 +1,7 @@
+import * as React from 'react';
 import ReactDOM from 'react-dom';
-import React from 'react';
+
+import { Main } from './views/Main';
 
 const App = () => {
 	const welcomeMessage = (
@@ -10,6 +12,7 @@ const App = () => {
 		return (
 			<div>
 				{welcomeMessage}
+				<Main />
 			</div>		
 		);
 	};
