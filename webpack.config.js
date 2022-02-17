@@ -26,7 +26,7 @@ mode: 'development',
   }
 ]},
 resolve: {
-  extensions: ['.tsx', '.ts', '.js'],
+  extensions: ['.tsx', '.ts', '.js', '.jsx'],
 },
 output: {
   filename: 'bundle.js',
