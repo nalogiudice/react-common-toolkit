@@ -1,22 +1,30 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
+import { ThemeProvider, createTheme, CssBaseline, GlobalStyles } from '@mui/material';
 
 import { Main } from './views/Main';
 
+const darkTheme = createTheme({
+	palette: {
+	  mode: 'dark',
+	},
+  });
+
+  const globalStyles = {
+	  body: {
+		  background: '#222',
+		  height: '100vh',
+	  }
+  };
+
+
 const App = () => {
-	const welcomeMessage = (
-		<p>This will soon become a function library for common React methods</p>
+	return (
+		<ThemeProvider theme={darkTheme} >
+			<CssBaseline />
+			<Main />
+			<GlobalStyles />
+		</ThemeProvider>
 	);
-
-	const renderWelcomeBanner = () => {
-		return (
-			<div>
-				{welcomeMessage}
-				<Main />
-			</div>		
-		);
-	};
-
- return renderWelcomeBanner();
- }
-ReactDOM.render(<App />, document.getElementById('app'));
+}
+ReactDOM.render(<App />, document.getElementById('main'));
