@@ -1,10 +1,13 @@
 import * as React from 'react';
-import { Grid, Container, Typography } from '@mui/material/';
+import { Box, Chip, Link, Grid, Container, Typography } from '@mui/material/';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 const starWarsSection = () => {
-	const starWarsUrl: string = "https://swapi.dev/api/films/1/";
+	const starWarsBaseUrl: string = 'https://swapi.dev/api/';
+	const filmsUrl: string = 'films/';
+
+	// test query
 	const starWarsQuery = `
 		query Query {
 			allFilms {
@@ -26,76 +29,52 @@ const starWarsSection = () => {
 		  }
 		`
 
-		const fetchQuery = () => {
-			return fetch(starWarsUrl, {
-				method: "POST",
-				headers: { "content-type": "application/json" },
-				body: JSON.stringify({ starWarsQuery })
+	/**
+	 * Using fetch()
+	 * Fetch only needs an url then must be
+	 * converted to json
+	 */
+	function request(): Promise<any> {
+		return fetch(starWarsBaseUrl.concat(filmsUrl))
+			.then((res) => {
+				return res.json();
 			})
-				.then((res) => {console.log(res)})
-		};
-
-		const starWarsData = async () => {
-			const incomingData = await fetchQuery();
-			console.log('incomingData: ', incomingData);
-		}
-
-		starWarsData();
-}
-
-const SpaceXSection = () => {
-	const spaceXUrl: string = "https://api.spacex.land/graphql/";
-	const query = `
-		query {
-		launchesPast(limit: 10) {
-			mission_name
-			launch_date_local
-			launch_site {
-			site_name_long
-			}
-		}
-		}
-		`;
-
-	const fetchQuery = () => {
-		return fetch(spaceXUrl, {
-			method: "POST",
-			headers: { "content-type": "application/json" },
-			body: JSON.stringify({ query })
-		})
-			.then((res) => res.json())
-			.then((result) => {
-				return result;
+			.then(data => {
+				return data;
+			})
+			.catch(function (err) {
+				console.log(err);
 			});
-	};
-
-	const missionData = async () => {
-		const incomingData = await fetchQuery();
-
-		incomingData.data.launchesPast.map((element: any) => {
-			for (let x in element) {
-				console.log(x, element[x])
-			}
-		})
 	}
 
-	missionData();
+	/**
+	 * Asynchronously do something
+	 */
+	const starWarsData = async () => {
+		// const incomingData = await fetchQuery();
+		const incomingData = await request();
+		console.log('incomingData: ', incomingData);
+	}
+
+	starWarsData();
 }
 
 const Article1 = () => {
+	// Run the data tests
+	starWarsSection();
+
+	// Simpliest fetch example
 	const codeSection1 = () => {
-		const codeString = 
-		`const fetchQuery = () => {
-	return fetch(spaceXUrl, {
-		method: "POST",
-		headers: { "content-type": "application/json" },
-		body: JSON.stringify({ query })
-	})
-		.then((res) => res.json())
-		.then((result) => {
-			return result;
+		const codeString =
+			`function request(): Promise<any> {
+	return fetch("https://swapi.dev/api/")
+		.then((res) => {
+			return res.json();
+		})
+		.catch(function (err) {
+			console.log(err);
 		});
-};`;
+	}`;
 		return (
 			<SyntaxHighlighter language="javascript" style={atomDark}>
 				{codeString}
@@ -103,27 +82,26 @@ const Article1 = () => {
 		);
 	};
 
-	
-	SpaceXSection();
-	starWarsSection();
-
 	return (
-		<Container component='article' maxWidth='md'>
+		<Container component='article' maxWidth='lg'>
+			<Box sx={{ p: 4, border: '6px solid #1D1F21' }}>
 			<Grid container direction={'column'} spacing={4}>
 				<Grid item>
-						<Typography variant='h4'>Fetching and Displaying Complex Objects</Typography>
-						<p>Keywords: graphql, objects, query</p>
-					</Grid>
-					<Grid item>
-						<Typography variant='subtitle1'>Often times, incoming data must be massaged. Lets explore several common use cases...</Typography>
-					</Grid>
-					<Grid item>
-						<Typography variant='body2'>Problem: You have to pull some data from a graphql endpoint and display it.</Typography>
-					</Grid>
-					<Grid item>
-						{codeSection1()}
-					</Grid>
+					<Typography variant='h4'>Fetching and Displaying Complex Objects</Typography>
+					<Typography variant='subtitle1'>Keywords: <Chip size="small" label="graphql" color="primary" /> <Chip size="small" label="objects" color="secondary" /> <Chip label="query" color="info" size="small" /></Typography>
+				</Grid>
+				<Grid item>
+					<Typography variant='body1'>Often times, incoming data must be massaged. Lets explore several common use cases...</Typography>
+				</Grid>
+				<Grid item>
+					<Typography variant='body2'>Problem: You have to pull some data from a graphql endpoint and display it.</Typography>
+					<Typography variant='body2'>Below is a very simple `fetch()` call to a <Link target="_blank" href="https://swapi.dev/api/">Star Wars API</Link>.</Typography>
+				</Grid>
+				<Grid item>
+					{codeSection1()}
+				</Grid>
 			</Grid>
+			</Box>
 		</Container>
 	)
 }

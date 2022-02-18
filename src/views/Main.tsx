@@ -12,7 +12,7 @@ import {
 	MenuItem
 } from '@mui/material/';
 import MenuIcon from '@mui/icons-material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
+import SchoolOutlined from '@mui/icons-material/SchoolOutlined';
 import MoreIcon from '@mui/icons-material/MoreVert';
 
 import Article1 from './Article1';
@@ -86,7 +86,7 @@ function Header() {
 					aria-haspopup="true"
 					color="inherit"
 				>
-					<AccountCircle />
+					<SchoolOutlined />
 				</IconButton>
 				<p>Profile</p>
 			</MenuItem>
@@ -125,7 +125,7 @@ function Header() {
 							onClick={handleProfileMenuOpen}
 							color="inherit"
 						>
-							<AccountCircle />
+							<SchoolOutlined />
 						</IconButton>
 					</Box>
 					<Box sx={{ display: { xs: 'flex', md: 'none' } }}>
@@ -167,16 +167,13 @@ export const Main = ({ }) => {
 				spacing={2}
 				sx={{
 					paddingTop: '14px',
-				  }}
+				}}
 			>
 				<Container maxWidth='lg'>
 					{Mission()}
 				</Container>
 				<Article1 />
 			</Stack>
-
-
-
 		</>
 	)
 }
